@@ -1,0 +1,761 @@
+[
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image",
+        "title": "Hero image"
+      },
+      {
+        "deprecated": {
+          "reason": "Upload or select an image using the Image field above."
+        },
+        "readOnly": true,
+        "hidden": true,
+        "name": "imagePath",
+        "type": "string",
+        "title": "Previous image path"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "name": "label",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "stats",
+        "type": "array"
+      }
+    ],
+    "name": "heroSection",
+    "type": "document",
+    "title": "Hero"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "level": "error",
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ]
+                  }
+                ],
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "rows": 3,
+                "name": "description",
+                "type": "text"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "values",
+        "type": "array",
+        "title": "Care values"
+      },
+      {
+        "name": "founderName",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "founderDescription",
+        "type": "text",
+        "title": "Founder description"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "founderImage",
+        "type": "image",
+        "title": "Founder portrait"
+      },
+      {
+        "deprecated": {
+          "reason": "Upload or select an image using the Image field above."
+        },
+        "readOnly": true,
+        "hidden": true,
+        "name": "founderImagePath",
+        "type": "string",
+        "title": "Previous image path"
+      }
+    ],
+    "name": "aboutSection",
+    "type": "document",
+    "title": "About hospital"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "level": "error",
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ]
+                  }
+                ],
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "role",
+                "type": "string"
+              },
+              {
+                "name": "qualifications",
+                "type": "string"
+              },
+              {
+                "of": [
+                  {
+                    "type": "string"
+                  }
+                ],
+                "name": "specialties",
+                "type": "array"
+              },
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image",
+                "title": "Portrait image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "members",
+        "type": "array"
+      }
+    ],
+    "name": "teamSection",
+    "type": "document",
+    "title": "Team"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "rows": 3,
+                "name": "description",
+                "type": "text"
+              },
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image",
+                "title": "Service image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "featured",
+        "type": "array",
+        "title": "Featured services"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "additional",
+        "type": "array",
+        "title": "Additional services"
+      }
+    ],
+    "name": "servicesSection",
+    "type": "document",
+    "title": "Services"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "rows": 3,
+                "name": "description",
+                "type": "text"
+              },
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image",
+                "title": "Machine image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "machines",
+        "type": "array"
+      }
+    ],
+    "name": "technologySection",
+    "type": "document",
+    "title": "Technology"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              },
+              {
+                "name": "alt",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "items",
+        "type": "array"
+      }
+    ],
+    "name": "gallerySection",
+    "type": "document",
+    "title": "Gallery"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              },
+              {
+                "name": "alt",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "items",
+        "type": "array",
+        "title": "Camp photos"
+      },
+      {
+        "name": "footerText",
+        "type": "string",
+        "title": "Footer text"
+      }
+    ],
+    "name": "communitySection",
+    "type": "document",
+    "title": "Community outreach"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "level": "error",
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ]
+                  }
+                ],
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "options": {
+                  "accept": "video/*"
+                },
+                "name": "video",
+                "type": "file",
+                "title": "Video file"
+              },
+              {
+                "deprecated": {
+                  "reason": "Use the Video file upload field."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "videoPath",
+                "type": "string",
+                "title": "Previous video path"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "items",
+        "type": "array",
+        "title": "Videos"
+      }
+    ],
+    "name": "videosSection",
+    "type": "document",
+    "title": "Clinic videos"
+  },
+  {
+    "fields": [
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image"
+              },
+              {
+                "deprecated": {
+                  "reason": "Upload or select an image using the Image field above."
+                },
+                "readOnly": true,
+                "hidden": true,
+                "name": "imagePath",
+                "type": "string",
+                "title": "Previous image path"
+              },
+              {
+                "name": "alt",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "items",
+        "type": "array"
+      }
+    ],
+    "name": "mediaSection",
+    "type": "document",
+    "title": "Media"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "featuredImage",
+        "type": "image",
+        "title": "Feature image"
+      },
+      {
+        "deprecated": {
+          "reason": "Upload or select an image using the Image field above."
+        },
+        "readOnly": true,
+        "hidden": true,
+        "name": "featuredImagePath",
+        "type": "string",
+        "title": "Previous image path"
+      },
+      {
+        "name": "imageLabel",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "rows": 3,
+                "name": "quote",
+                "type": "text"
+              },
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "detail",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "items",
+        "type": "array"
+      }
+    ],
+    "name": "testimonialsSection",
+    "type": "document",
+    "title": "Testimonials"
+  },
+  {
+    "fields": [
+      {
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "appointmentImage",
+        "type": "image",
+        "title": "Appointment image"
+      },
+      {
+        "deprecated": {
+          "reason": "Upload or select an image using the Image field above."
+        },
+        "readOnly": true,
+        "hidden": true,
+        "name": "appointmentImagePath",
+        "type": "string",
+        "title": "Previous image path"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "phoneNumbers",
+        "type": "array"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "hours",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "address",
+        "type": "text"
+      }
+    ],
+    "name": "contactSection",
+    "type": "document",
+    "title": "Contact"
+  },
+  {
+    "fields": [
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text",
+        "title": "Clinic description"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "name": "href",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "treatmentLinks",
+        "type": "array",
+        "title": "Treatment links"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "name": "href",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "exploreLinks",
+        "type": "array",
+        "title": "Explore links"
+      },
+      {
+        "rows": 3,
+        "name": "address",
+        "type": "text"
+      },
+      {
+        "name": "phone",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "hours",
+        "type": "string"
+      },
+      {
+        "name": "copyright",
+        "type": "string"
+      }
+    ],
+    "name": "footerSection",
+    "type": "document",
+    "title": "Footer"
+  }
+]

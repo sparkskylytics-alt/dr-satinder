@@ -1,0 +1,16 @@
+{
+  "name": "dr-satinder-eye-care-studio",
+  "private": true,
+  "scripts": {
+    "dev": "..\\node_modules\\.bin\\sanity.cmd dev",
+    "build": "..\\node_modules\\.bin\\sanity.cmd build"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.7.0",
+    "sanity": "^4.15.0",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
