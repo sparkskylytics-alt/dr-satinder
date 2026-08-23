@@ -144,11 +144,11 @@ export function SiteHeader() {
             className="flex items-center justify-center gap-2 rounded-md border border-primary px-6 py-3.5 text-base font-medium text-primary"
           >
             <Phone className="h-5 w-5" />
-            Call 89583 44505
+            Call 8958334505
           </a>
           <a
             href="#appointment"
-            onClick={() => setOpen(false)}
+            onClick={(event) => { event.preventDefault(); setOpen(false); window.dispatchEvent(new Event('open-appointment')) }}
             className="group flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-4 text-base font-medium text-primary-foreground"
           >
             Book Consultation

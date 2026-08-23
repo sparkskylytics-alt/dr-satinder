@@ -30,7 +30,7 @@ export function Hero({ content }: { content?: HeroContent }) {
             {hero.stats.map((stat, index) => <div key={stat.label} className="contents"><Stat value={stat.value} label={stat.label} />{index < hero.stats.length - 1 && <span className="h-8 w-px bg-border" />}</div>)}
           </Reveal>
         </div>
-        <div className="relative"><div className="relative aspect-[5/4] w-full overflow-hidden rounded-lg sm:aspect-[16/11]"><Image src={hero.imagePath} alt="Interior of the Dr Satinder Eye Care clinic" fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-charcoal/25 to-transparent" /></div>
+        <div className="relative"><div className="relative aspect-[5/4] w-full overflow-hidden rounded-lg sm:aspect-[16/11]"><Image src={hero.imagePath} alt="Interior of the Dr Satinder Eye Care clinic" fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover brightness-110 contrast-110 saturate-110" /><div className="absolute inset-0 bg-gradient-to-t from-charcoal/10 to-transparent" /></div>
           <Reveal delay={400} className="absolute -bottom-6 -left-4 hidden max-w-[15rem] rounded-lg border border-border bg-pearl/90 p-5 shadow-lg backdrop-blur sm:block"><p className="font-serif text-2xl leading-tight text-foreground">Accredited excellence</p><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Experienced specialists and trusted clinical protocols for every patient.</p></Reveal>
         </div>
       </div>

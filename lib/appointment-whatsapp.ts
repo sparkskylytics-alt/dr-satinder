@@ -4,7 +4,6 @@ export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
   const data = new FormData(form)
   const name = String(data.get('name') ?? '').trim()
   const phone = String(data.get('phone') ?? '').trim()
-  const email = String(data.get('email') ?? '').trim()
   const message = String(data.get('message') ?? '').trim()
 
   const details = [
@@ -12,7 +11,6 @@ export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
     '',
     `Name: ${name}`,
     `Phone: ${phone}`,
-    email && `Email: ${email}`,
     message && `Message: ${message}`,
   ].filter(Boolean).join('\n')
 

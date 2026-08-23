@@ -70,7 +70,6 @@ export function AppointmentModal() {
             <form className="mt-4 space-y-2.5" onSubmit={(event) => { event.preventDefault(); sendAppointmentToWhatsApp(event.currentTarget); setSubmitted(true); sessionStorage.setItem(dismissedKey, 'true') }}>
               <Input label="Full name" name="name" placeholder="Your name" required />
               <Input label="Phone" name="phone" type="tel" placeholder="+91 00000 00000" required />
-              <Input label="Email" name="email" type="email" placeholder="you@example.com" />
               <Input label="Message" name="message" placeholder="Anything we should know?" textarea />
               <button type="submit" className="group flex w-full items-center justify-center gap-2 rounded-md bg-ivory px-5 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-primary hover:text-ivory">Request appointment <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
             </form>

@@ -13,7 +13,7 @@ const fallbackContact = {
   heading: 'Begin with a conversation',
   description: 'Share a few details and our care team will confirm your visit. No obligation — just a considered first step toward clearer vision.',
   appointmentImagePath: '/images/appointment-cta.png',
-  phoneNumbers: ['89583 44505', '86305 06562'],
+  phoneNumbers: ['8958334505'],
   email: 'Drsatinderyecare@gmail.com',
   hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed',
   address: '349, Shamli Road, near Tarachand Petrol Pump, Muzaffarnagar – 251002',
@@ -21,7 +21,7 @@ const fallbackContact = {
 
 export function Appointment({ content }: { content?: ContactContent }) {
   const contact = { ...fallbackContact, ...content }
-  const phoneNumbers = content?.phoneNumbers ?? fallbackContact.phoneNumbers
+  const phoneNumbers = fallbackContact.phoneNumbers
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -56,7 +56,6 @@ export function Appointment({ content }: { content?: ContactContent }) {
               <form onSubmit={handleSubmit} className="space-y-3">
                 <Field label="Full name" name="name" placeholder="Your name" />
                 <Field label="Phone" name="phone" type="tel" placeholder="+91 00000 00000" />
-                <Field label="Email" name="email" type="email" placeholder="you@example.com" />
                 <Field label="Message" name="message" placeholder="Anything we should know?" textarea />
                 <button type="submit" className="group flex w-full items-center justify-center gap-2 rounded-md bg-ivory px-6 py-3.5 text-sm font-medium text-charcoal transition-colors duration-300 hover:bg-primary hover:text-ivory">Request Appointment <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
               </form>

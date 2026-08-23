@@ -14,5 +14,5 @@ createClient({ projectId, dataset, apiVersion, token, useCdn: false }).createOrR
   treatmentLinks: links([['Cataract Surgery', '#services'], ['LASIK & Refractive', '#services'], ['Glaucoma', '#services'], ['Retina', '#services'], ['Consultation', '#appointment']]),
   exploreLinks: links([['About', '#about'], ['Treatments', '#services'], ['Technology', '#technology'], ['Gallery', '#gallery'], ['Patients', '#testimonials']]),
   address: '349, Shamli Road, near Tarachand Petrol Pump, Eidgah Police Chowki, Muzaffarnagar – 251002',
-  phone: '89583 44505 · 86305 06562', email: 'Drsatinderyecare@gmail.com', hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed', copyright: '© 2026 Dr Satinder Eye Care. All rights reserved.',
+  phone: '8958334505', email: 'Drsatinderyecare@gmail.com', hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed', copyright: '© 2026 Dr Satinder Eye Care. All rights reserved.',
 }).then(() => console.log('Seeded Footer section.')).catch((error) => { console.error(error); process.exitCode = 1 })
