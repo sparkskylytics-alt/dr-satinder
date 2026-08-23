@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '918958344505'
+const WHATSAPP_NUMBER = '918958334505'
 
 export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
   const data = new FormData(form)

@@ -140,7 +140,7 @@ export function SiteHeader() {
         </nav>
         <div className="space-y-3 px-6 pb-6 sm:pb-10">
           <a
-            href="tel:+918958344505"
+            href="tel:+918958334505"
             className="flex items-center justify-center gap-2 rounded-md border border-primary px-6 py-3.5 text-base font-medium text-primary"
           >
             <Phone className="h-5 w-5" />

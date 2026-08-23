@@ -13,7 +13,7 @@ const fallbackContact = {
   heading: 'Begin with a conversation',
   description: 'Share a few details and our care team will confirm your visit. No obligation — just a considered first step toward clearer vision.',
   appointmentImagePath: '/images/appointment-cta.png',
-  phoneNumbers: ['8958334505'],
+  phoneNumbers: ['8958334505', '8630506562'],
   email: 'Drsatinderyecare@gmail.com',
   hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed',
   address: '349, Shamli Road, near Tarachand Petrol Pump, Muzaffarnagar – 251002',
@@ -21,7 +21,7 @@ const fallbackContact = {
 
 export function Appointment({ content }: { content?: ContactContent }) {
   const contact = { ...fallbackContact, ...content }
-  const phoneNumbers = fallbackContact.phoneNumbers
+  const phoneNumbers = content?.phoneNumbers?.length ? content.phoneNumbers : fallbackContact.phoneNumbers
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
