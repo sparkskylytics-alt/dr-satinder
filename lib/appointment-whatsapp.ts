@@ -14,5 +14,5 @@ export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
     message && `Message: ${message}`,
   ].filter(Boolean).join('\n')
 
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(details)}`, '_blank', 'noopener,noreferrer')
+  window.open(`https://api.whatsapp.com/send/?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(details)}&type=phone_number&app_absent=0`, '_blank', 'noopener,noreferrer')
 }
