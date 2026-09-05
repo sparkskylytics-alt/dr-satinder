@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { ServicesContent } from '@/sanity/lib/homepage'
+import { findServiceForTitle } from '@/lib/services'
 
 const FEATURED_SERVICES = [
   {
@@ -74,7 +75,7 @@ export function Services({ content }: { content?: ServicesContent }) {
           {featuredServices.map((service, index) => (
             <Reveal key={service.title} delay={index * 90}>
               <a
-                href="#appointment"
+                href={findServiceForTitle(service.title)?.slug ? `/${findServiceForTitle(service.title)!.slug}` : '#appointment'}
                 className="group relative block h-64 overflow-hidden rounded-lg bg-charcoal md:h-72"
               >
                 <Image
@@ -102,10 +103,11 @@ export function Services({ content }: { content?: ServicesContent }) {
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {additionalServices.map((service, index) => {
               const image = featuredServices[index % featuredServices.length].image
+              const href = findServiceForTitle(service)?.slug ? `/${findServiceForTitle(service)!.slug}` : '#appointment'
               return (
                 <a
                   key={service}
-                  href="#appointment"
+                  href={href}
                   className="group relative block h-64 overflow-hidden rounded-lg bg-charcoal md:h-72"
                 >
                   <Image

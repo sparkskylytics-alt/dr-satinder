@@ -2,39 +2,14 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { TeamContent } from '@/sanity/lib/homepage'
-
-const TEAM = [
-  {
-    name: 'Dr. Ravinder Kumar Sharma',
-    role: 'Senior Ophthalmologist',
-    qualifications: 'B.I.M., D.U.M.S. (Lk.), D.R. Opth. (Delhi)',
-    specialties: ['Refraction & Contact Lens Specialist', 'General Ophthalmologist'],
-    initials: 'RS',
-    image: '/doctor-image/ravinder.jpeg',
-  },
-  {
-    name: 'Dr. Vibhuti Sharan',
-    role: 'Visiting Surgeon',
-    qualifications: 'M.B.B.S., M.S.',
-    specialties: ['Ophthalmologist', 'Phaco & LASIK Eye Surgeon'],
-    initials: 'VS',
-    image: '/doctor-image/vibhuti.jpeg',
-  },
-  {
-    name: 'Dr. Vikrant Vashist',
-    role: 'Optometrist & Eye Care Specialist',
-    qualifications: 'M.Sc., M.Optom · B.Sc., B.Optom (Chandigarh)',
-    specialties: ['Clinical Eye Care', 'Optometry & Vision Assessment','Refraction and lens specialist'],
-    initials: 'VV',
-    image: '/doctor-image/vikrant.jpeg',
-  },
-]
+import { DOCTORS as TEAM } from '@/lib/doctors'
 
 export function AboutDoctor({ content }: { content?: TeamContent }) {
   const team = { eyebrow: 'Our specialists', heading: 'Eye care, expertly guided.', description: 'Our experienced eye-care team combines careful diagnosis, advanced treatment, and personal attention—so every patient feels understood and confidently cared for.', ...content }
-  const doctors = content?.members?.length ? content.members.map((member, index) => ({ name: member.name ?? 'Doctor', role: member.role ?? '', qualifications: member.qualifications ?? '', specialties: member.specialties ?? [], image: member.image ?? TEAM[index % TEAM.length].image })) : TEAM
+  const doctors = content?.members?.length ? content.members.map((member, index) => ({ name: member.name ?? 'Doctor', role: member.role ?? '', qualifications: member.qualifications ?? '', specialties: member.specialties ?? [], image: member.image ?? TEAM[index % TEAM.length].image, slug: TEAM[index % TEAM.length].slug })) : TEAM
   const [expandedDoctor, setExpandedDoctor] = useState<number | null>(null)
 
   return (
@@ -85,7 +60,15 @@ export function AboutDoctor({ content }: { content?: TeamContent }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/18 to-transparent" />
                 <div className={`pointer-events-none absolute inset-0 transition-colors duration-300 ${expandedDoctor === index ? 'bg-charcoal/45' : 'bg-transparent'} md:bg-transparent md:group-hover:bg-charcoal/45 md:group-focus:bg-charcoal/45`} />
                 <div className="relative mt-auto">
-                  <h3 className="font-serif text-lg leading-none text-primary-foreground sm:text-xl">{doctor.name}</h3>
+                  <h3 className="font-serif text-lg leading-none text-primary-foreground sm:text-xl">
+                    {doctor.slug ? (
+                      <Link href={`/doctors/${doctor.slug}`} onClick={(event) => event.stopPropagation()} className="hover:underline">
+                        {doctor.name}
+                      </Link>
+                    ) : (
+                      doctor.name
+                    )}
+                  </h3>
                   <p className="label-caps mt-2 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white/90">{doctor.role}</p>
                   <p className="mt-3 text-[0.58rem] font-medium uppercase tracking-[0.16em] text-accent sm:hidden">Tap to view qualifications</p>
                   <p className="mt-3 hidden text-[0.58rem] font-medium uppercase tracking-[0.16em] text-accent sm:block">Hover to view qualifications</p>

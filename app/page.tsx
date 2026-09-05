@@ -16,26 +16,21 @@ import { getHomepage } from '@/sanity/lib/homepage'
 import { JsonLd } from '@/components/json-ld'
 import { medicalClinicSchema, physicianSchema, breadcrumbSchema } from '@/lib/structured-data'
 import { CLINIC } from '@/lib/clinic'
+import { DOCTORS } from '@/lib/doctors'
 
 // Keep the deployed Vercel site in sync with published Sanity content.
 export const dynamic = 'force-dynamic'
-
-const FALLBACK_TEAM = [
-  { name: 'Dr. Ravinder Kumar Sharma', role: 'Senior Ophthalmologist', qualifications: 'B.I.M., D.U.M.S. (Lk.), D.R. Opth. (Delhi)', slug: 'ravinder-kumar-sharma' },
-  { name: 'Dr. Vibhuti Sharan', role: 'Visiting Surgeon', qualifications: 'M.B.B.S., M.S.', slug: 'vibhuti-sharan' },
-  { name: 'Dr. Vikrant Vashist', role: 'Optometrist & Eye Care Specialist', qualifications: 'M.Sc., M.Optom · B.Sc., B.Optom (Chandigarh)', slug: 'vikrant-vashist' },
-]
 
 export default async function Page() {
   const content = await getHomepage()
   const doctors = content?.team?.members?.length
     ? content.team.members.map((member, index) => ({
-        name: member.name ?? FALLBACK_TEAM[index % FALLBACK_TEAM.length].name,
+        name: member.name ?? DOCTORS[index % DOCTORS.length].name,
         role: member.role,
         qualifications: member.qualifications,
-        slug: FALLBACK_TEAM[index % FALLBACK_TEAM.length].slug,
+        slug: DOCTORS[index % DOCTORS.length].slug,
       }))
-    : FALLBACK_TEAM
+    : DOCTORS
   return (
     <>
       <JsonLd
