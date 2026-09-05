@@ -20,7 +20,8 @@ export function Hero({ content }: { content?: HeroContent }) {
       <div className="mx-auto grid max-w-7xl items-center gap-7 px-5 pb-8 pt-4 md:px-8 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:pb-10 lg:pt-6">
         <div className="max-w-xl">
           <Reveal><span className="label-caps inline-flex items-center gap-2 text-primary"><span className="h-px w-8 bg-primary" />{hero.eyebrow}</span></Reveal>
-          <MaskHeading as="h1" className="mt-5 font-serif text-4xl font-light leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl" lines={[hero.heading]} />
+          <MaskHeading as="h1" className="mt-5 font-serif text-4xl font-light leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl" lines={['Eye Care in Muzaffarnagar']} />
+          <MaskHeading as="h2" className="mt-3 font-serif text-xl font-light leading-snug tracking-tight text-foreground/80 sm:text-2xl" lines={[hero.heading]} />
           <Reveal delay={220} className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground"><p>{hero.description}</p></Reveal>
           <Reveal delay={340} className="mt-6 flex flex-wrap items-center gap-4">
             <a href="#appointment" className="group inline-flex items-center gap-2 rounded-md bg-charcoal px-6 py-3.5 text-sm font-medium text-ivory shadow-sm transition-colors duration-300 hover:bg-primary">Book a Consultation<ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></a>
