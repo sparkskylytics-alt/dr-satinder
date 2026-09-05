@@ -6,9 +6,13 @@ import { Logo } from '@/components/logo'
 import type { FooterContent } from '@/sanity/lib/homepage'
 import { CLINIC } from '@/lib/clinic'
 
+function homeHref(href: string) {
+  return href.startsWith('#') ? `/${href}` : href
+}
+
 const COLUMNS = [
-  { heading: 'Treatments', links: [{ label: 'Cataract Surgery', href: '#services' }, { label: 'LASIK & Refractive', href: '#services' }, { label: 'Glaucoma', href: '#services' }, { label: 'Retina', href: '#services' }, { label: 'Consultation', href: '#appointment' }] },
-  { heading: 'Explore', links: [{ label: 'About', href: '#about' }, { label: 'Treatments', href: '#services' }, { label: 'Technology', href: '#technology' }, { label: 'Gallery', href: '#gallery' }, { label: 'Patients', href: '#testimonials' }] },
+  { heading: 'Treatments', links: [{ label: 'Cataract Surgery', href: '/#services' }, { label: 'LASIK & Refractive', href: '/#services' }, { label: 'Glaucoma', href: '/#services' }, { label: 'Retina', href: '/#services' }, { label: 'Consultation', href: '/#appointment' }] },
+  { heading: 'Explore', links: [{ label: 'About', href: '/#about' }, { label: 'Treatments', href: '/#services' }, { label: 'Technology', href: '/#technology' }, { label: 'Gallery', href: '/#gallery' }, { label: 'Patients', href: '/#testimonials' }] },
 ]
 
 export function SiteFooter({ content }: { content?: FooterContent }) {
@@ -44,7 +48,7 @@ export function SiteFooter({ content }: { content?: FooterContent }) {
                 <p className="label-caps text-[0.58rem] text-accent">{col.heading}</p>
                 <ul className="mt-4 space-y-3">
                   {col.links.map((link) => (
-                    <li key={link.label}><a href={link.href} className="text-sm text-ivory/60 transition-colors hover:text-[var(--logo-blue)]">{link.label}</a></li>
+                    <li key={link.label}><a href={homeHref(link.href)} className="text-sm text-ivory/60 transition-colors hover:text-[var(--logo-blue)]">{link.label}</a></li>
                   ))}
                 </ul>
               </div>

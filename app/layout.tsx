@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { CLINIC } from '@/lib/clinic'
+import { AppointmentModal } from '@/components/appointment-modal'
 
 const TITLE = 'Eye Specialist in Muzaffarnagar | Dr. Satinder Eye Care Centre'
 const DESCRIPTION =
@@ -63,6 +64,7 @@ export default function RootLayout({
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
         {children}
+        <AppointmentModal />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

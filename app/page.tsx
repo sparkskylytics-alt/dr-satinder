@@ -11,7 +11,6 @@ import { MediaGallery } from '@/components/media-gallery'
 import { Testimonials } from '@/components/testimonials'
 import { Appointment } from '@/components/appointment'
 import { SiteFooter } from '@/components/site-footer'
-import { AppointmentModal } from '@/components/appointment-modal'
 import { getHomepage } from '@/sanity/lib/homepage'
 import { JsonLd } from '@/components/json-ld'
 import { medicalClinicSchema, physicianSchema, breadcrumbSchema } from '@/lib/structured-data'
@@ -55,7 +54,6 @@ export default async function Page() {
         <Appointment content={content?.contact} />
       </main>
       <SiteFooter content={content?.footer} />
-      <AppointmentModal />
     </>
   )
 }

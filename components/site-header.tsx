@@ -1,21 +1,24 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X, ArrowUpRight, Phone } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { cn } from '@/lib/utils'
 import { CLINIC } from '@/lib/clinic'
 
 const NAV = [
-  { label: 'About', href: '#about' },
-  { label: 'Treatments', href: '#services' },
-  { label: 'Technology', href: '#technology' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Patients', href: '#testimonials' },
-  { label: 'Contact', href: '#appointment' },
+  { label: 'About', id: 'about' },
+  { label: 'Treatments', id: 'services' },
+  { label: 'Technology', id: 'technology' },
+  { label: 'Gallery', id: 'gallery' },
+  { label: 'Patients', id: 'testimonials' },
+  { label: 'Contact', id: 'appointment' },
 ]
 
 export function SiteHeader() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('#about')
@@ -28,7 +31,8 @@ export function SiteHeader() {
   }, [])
 
   useEffect(() => {
-    const sections = NAV.map((n) => document.querySelector(n.href)).filter(Boolean) as Element[]
+    if (!isHome) return
+    const sections = NAV.map((n) => document.getElementById(n.id)).filter(Boolean) as Element[]
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -39,7 +43,7 @@ export function SiteHeader() {
     )
     sections.forEach((s) => observer.observe(s))
     return () => observer.disconnect()
-  }, [])
+  }, [isHome])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -58,22 +62,22 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <a href="#top" aria-label="Dr Satinder Eye Care home">
+        <a href="/" aria-label="Dr Satinder Eye Care home">
           <Logo tone="dark" />
         </a>
 
         <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
           {NAV.map((item) => (
             <a
-              key={item.href}
-              href={item.href}
+              key={item.id}
+              href={`/#${item.id}`}
               className="group relative text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
             >
               {item.label}
               <span
                 className={cn(
                   'absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-[var(--logo-blue)] transition-transform duration-300 group-hover:scale-x-100',
-                  active === item.href && 'scale-x-100',
+                  isHome && active === `#${item.id}` && 'scale-x-100',
                 )}
               />
             </a>
@@ -82,7 +86,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="#appointment"
+            href="/#appointment"
             onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event('open-appointment')) }}
             className="group hidden items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-all duration-300 hover:bg-charcoal sm:inline-flex"
           >
@@ -90,7 +94,7 @@ export function SiteHeader() {
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
           <a
-            href="#appointment"
+            href="/#appointment"
             onClick={(event) => { event.preventDefault(); setOpen(false); window.dispatchEvent(new Event('open-appointment')) }}
             className="inline-flex h-8 items-center justify-center rounded-sm bg-primary px-3 text-[0.68rem] font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-charcoal sm:hidden"
             aria-label="Call to request a consultation"
@@ -129,8 +133,8 @@ export function SiteHeader() {
         <nav className="flex flex-1 flex-col justify-center gap-1 px-6 py-5" aria-label="Mobile">
           {NAV.map((item, i) => (
             <a
-              key={item.href}
-              href={item.href}
+              key={item.id}
+              href={`/#${item.id}`}
               onClick={() => setOpen(false)}
               className="border-b border-border/60 py-3.5 font-serif text-3xl text-foreground sm:py-5 sm:text-4xl"
               style={{ transitionDelay: `${i * 40}ms` }}
@@ -148,7 +152,7 @@ export function SiteHeader() {
             Call {CLINIC.telephone[0].replace('+91', '')}
           </a>
           <a
-            href="#appointment"
+            href="/#appointment"
             onClick={(event) => { event.preventDefault(); setOpen(false); window.dispatchEvent(new Event('open-appointment')) }}
             className="group flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-4 text-base font-medium text-primary-foreground"
           >
