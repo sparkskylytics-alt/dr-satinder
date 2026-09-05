@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SanityImage as Image } from '@/components/sanity-image'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { HeroContent } from '@/sanity/lib/homepage'

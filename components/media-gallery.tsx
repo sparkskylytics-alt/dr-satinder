@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { SanityImage as Image } from '@/components/sanity-image'
 import { X } from 'lucide-react'
 import { createPortal } from 'react-dom'
 import { Reveal } from '@/components/reveal'

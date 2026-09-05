@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import { SanityImage as Image } from '@/components/sanity-image'
 import Link from 'next/link'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { TeamContent } from '@/sanity/lib/homepage'

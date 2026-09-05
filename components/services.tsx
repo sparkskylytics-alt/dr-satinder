@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import { SanityImage as Image } from '@/components/sanity-image'
 import { ChevronDown } from 'lucide-react'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { ServicesContent } from '@/sanity/lib/homepage'

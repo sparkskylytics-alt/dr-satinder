@@ -5,32 +5,41 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { MaskHeading, Reveal } from '@/components/reveal'
 import type { VideosContent } from '@/sanity/lib/homepage'
 
+// Poster falls back to the generic video-showcase image until a real
+// per-video frame is generated (needs ffmpeg, unavailable in this environment).
+const DEFAULT_POSTER = '/images/video-showcase.png'
+
 const CLINIC_FILMS = [
   {
     title: 'A closer look at your eyes',
     video: '/doctor-video/video-1.mp4',
+    poster: DEFAULT_POSTER,
   },
   {
     title: 'Modern diagnostic care',
     video: '/doctor-video/video-2.mp4',
+    poster: DEFAULT_POSTER,
   },
   {
     title: 'Precision cataract treatment',
     video: '/doctor-video/video-3.mp4',
+    poster: DEFAULT_POSTER,
   },
   {
     title: 'Care designed around you',
     video: '/doctor-video/video-5.mp4',
+    poster: DEFAULT_POSTER,
   },
   {
     title: 'Advanced vision technology',
     video: '/doctor-video/video-6.mp4',
+    poster: DEFAULT_POSTER,
   },
 ]
 
 export function VideoShowcase({ content }: { content?: VideosContent }) {
   const videoContent = { eyebrow: 'Inside the clinic', heading: 'Precision you can see, care you can feel', description: 'Swipe or use the arrows to explore', ...content }
-  const films = content?.items?.length ? content.items.map((item, index) => ({ title: item.title ?? 'Clinic film', video: item.video ?? CLINIC_FILMS[index % CLINIC_FILMS.length].video })) : CLINIC_FILMS
+  const films = content?.items?.length ? content.items.map((item, index) => ({ title: item.title ?? 'Clinic film', video: item.video ?? CLINIC_FILMS[index % CLINIC_FILMS.length].video, poster: DEFAULT_POSTER })) : CLINIC_FILMS
   const trackRef = useRef<HTMLDivElement>(null)
 
   const scrollVideos = (direction: 1 | -1) => {
@@ -87,7 +96,7 @@ export function VideoShowcase({ content }: { content?: VideosContent }) {
                 key={film.title}
                 className="group relative aspect-[9/14] w-[13.5rem] shrink-0 snap-start overflow-hidden rounded-[1.75rem] bg-ivory/10 sm:w-[15rem]"
               >
-                <ClinicVideo src={film.video} title={film.title} />
+                <ClinicVideo src={film.video} title={film.title} poster={film.poster} />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/15 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <span className="label-caps text-[0.58rem] text-accent">Clinic film</span>
@@ -102,7 +111,7 @@ export function VideoShowcase({ content }: { content?: VideosContent }) {
   )
 }
 
-function ClinicVideo({ src, title }: { src: string; title: string }) {
+function ClinicVideo({ src, title, poster }: { src: string; title: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -131,6 +140,7 @@ function ClinicVideo({ src, title }: { src: string; title: string }) {
       muted
       playsInline
       preload="none"
+      poster={poster}
       aria-label={title}
       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
     >

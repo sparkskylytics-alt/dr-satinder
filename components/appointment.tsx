@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SanityImage as Image } from '@/components/sanity-image'
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { ArrowUpRight, Check, Phone, Clock, MapPin, Mail } from 'lucide-react'
 import { MaskHeading, Reveal } from '@/components/reveal'
