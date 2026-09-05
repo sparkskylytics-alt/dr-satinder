@@ -8,6 +8,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { JsonLd } from '@/components/json-ld'
 import { CLINIC } from '@/lib/clinic'
 import { DOCTORS, getDoctorBySlug } from '@/lib/doctors'
+import { getServiceBySlug } from '@/lib/services'
 import { physicianSchema, breadcrumbSchema } from '@/lib/structured-data'
 import { getHomepage } from '@/sanity/lib/homepage'
 
@@ -33,12 +34,14 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
 
   const content = await getHomepage()
   const pageUrl = `${CLINIC.url}/doctors/${doctor.slug}`
+  const relatedServices = doctor.relatedServiceSlugs.map(getServiceBySlug).filter((s): s is NonNullable<typeof s> => Boolean(s))
+  const otherDoctors = DOCTORS.filter((d) => d.slug !== doctor.slug)
 
   return (
     <>
       <JsonLd
         data={[
-          physicianSchema({ name: doctor.name, role: doctor.role, qualifications: doctor.qualifications, slug: doctor.slug }),
+          physicianSchema({ name: doctor.name, role: doctor.role, qualifications: doctor.qualifications, slug: doctor.slug, bio: doctor.bio }),
           breadcrumbSchema([
             { name: 'Home', url: CLINIC.url },
             { name: doctor.name, url: pageUrl },
@@ -79,10 +82,39 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
 
         <section className="mt-10">
           <h2 className="font-serif text-2xl font-light text-foreground">About {doctor.name}</h2>
-          <div className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            {/* TODO: clinical/biographical copy — needs doctor review */}
-          </div>
+          {/* Drafted from role/qualifications/specialties only — flagged for doctor review, not yet confirmed. */}
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{doctor.bio}</p>
         </section>
+
+        {relatedServices.length > 0 && (
+          <section className="mt-10 border-t border-border pt-6">
+            <h2 className="label-caps text-primary">Treatments</h2>
+            <ul className="mt-3 space-y-2">
+              {relatedServices.map((service) => (
+                <li key={service.slug}>
+                  <Link href={`/${service.slug}`} className="text-sm font-medium text-foreground hover:text-primary">
+                    {service.name} in Muzaffarnagar
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {otherDoctors.length > 0 && (
+          <section className="mt-10 border-t border-border pt-6">
+            <h2 className="label-caps text-primary">Other doctors</h2>
+            <ul className="mt-3 space-y-2">
+              {otherDoctors.map((d) => (
+                <li key={d.slug}>
+                  <Link href={`/doctors/${d.slug}`} className="text-sm font-medium text-foreground hover:text-primary">
+                    {d.name} — {d.role}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </main>
       <SiteFooter content={content?.footer} />
     </>

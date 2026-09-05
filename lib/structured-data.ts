@@ -5,6 +5,7 @@ type DoctorInput = {
   role?: string
   qualifications?: string
   slug?: string
+  bio?: string
 }
 
 export function medicalClinicSchema() {
@@ -48,6 +49,7 @@ export function physicianSchema(doctor: DoctorInput) {
     name: doctor.name,
     jobTitle: doctor.role,
     ...(doctor.qualifications ? { hasCredential: doctor.qualifications } : {}),
+    ...(doctor.bio ? { description: doctor.bio } : {}),
     medicalSpecialty: 'Ophthalmologic',
     worksFor: { '@type': 'MedicalClinic', name: CLINIC.legalName, '@id': `${CLINIC.url}/#clinic` },
     ...(doctor.slug ? { url: `${CLINIC.url}/doctors/${doctor.slug}` } : {}),
