@@ -4,22 +4,21 @@ import { useState } from 'react'
 import { Clock, Mail, MapPin, Phone, X } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import type { FooterContent } from '@/sanity/lib/homepage'
+import { CLINIC } from '@/lib/clinic'
 
 const COLUMNS = [
   { heading: 'Treatments', links: [{ label: 'Cataract Surgery', href: '#services' }, { label: 'LASIK & Refractive', href: '#services' }, { label: 'Glaucoma', href: '#services' }, { label: 'Retina', href: '#services' }, { label: 'Consultation', href: '#appointment' }] },
   { heading: 'Explore', links: [{ label: 'About', href: '#about' }, { label: 'Treatments', href: '#services' }, { label: 'Technology', href: '#technology' }, { label: 'Gallery', href: '#gallery' }, { label: 'Patients', href: '#testimonials' }] },
 ]
 
-const ADDRESS = '349, Shamli Road, near Tarachand Petrol Pump, Eidgah Police Chowki, Muzaffarnagar – 251002'
-
 export function SiteFooter({ content }: { content?: FooterContent }) {
   const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null)
   const footer = {
     description: 'Comprehensive, compassionate eye care for clearer vision and long-term eye health.',
-    address: ADDRESS,
-    phone: '8958334505 · 8630506562',
-    email: 'Drsatinderyecare@gmail.com',
-    hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed',
+    address: CLINIC.addressDisplay,
+    phone: CLINIC.telephoneDisplay,
+    email: CLINIC.email,
+    hours: CLINIC.hoursDisplay,
     copyright: '© 2026 Dr Satinder Eye Care. All rights reserved.',
     ...content,
   }
@@ -59,12 +58,6 @@ export function SiteFooter({ content }: { content?: FooterContent }) {
               <div className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span className="flex flex-wrap gap-x-2">{phoneNumbers.map((phone, index) => <span key={phone} className="contents"><a href={`tel:${phone.replace(/\D/g, '')}`} className="transition-colors hover:text-accent">{phone}</a>{index < phoneNumbers.length - 1 && <span className="text-ivory/35">·</span>}</span>)}</span></div>
               <a href={`mailto:${footer.email}`} className="flex gap-3 break-all transition-colors hover:text-accent"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>{footer.email}</span></a>
               <div className="flex gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>{footer.hours}</span></div>
-            </div>
-            <div className="hidden">
-              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(footer.address)}`} target="_blank" rel="noreferrer" className="flex gap-3 transition-colors hover:text-ivory"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>{footer.address}</span></a>
-              <div className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span className="flex flex-wrap gap-x-2"><a href="tel:+918958334505" className="transition-colors hover:text-accent">8958334505</a><span className="text-ivory/35">·</span><a href="tel:+918630506562" className="transition-colors hover:text-accent">8630506562</a></span></div>
-              <a href="mailto:Drsatinderyecare@gmail.com" className="flex gap-3 break-all transition-colors hover:text-accent"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>Drsatinderyecare@gmail.com</span></a>
-              <div className="flex gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed</span></div>
             </div>
           </div>
         </div>

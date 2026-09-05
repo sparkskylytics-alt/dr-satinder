@@ -7,16 +7,17 @@ import { MaskHeading, Reveal } from '@/components/reveal'
 import { cn } from '@/lib/utils'
 import { sendAppointmentToWhatsApp } from '@/lib/appointment-whatsapp'
 import type { ContactContent } from '@/sanity/lib/homepage'
+import { CLINIC } from '@/lib/clinic'
 
 const fallbackContact = {
   eyebrow: 'Appointments',
   heading: 'Begin with a conversation',
   description: 'Share a few details and our care team will confirm your visit. No obligation — just a considered first step toward clearer vision.',
   appointmentImagePath: '/images/appointment-cta.png',
-  phoneNumbers: ['8958334505', '8630506562'],
-  email: 'Drsatinderyecare@gmail.com',
-  hours: 'Mon & Wed–Sun: 10:00 AM – 7:30 PM · Tue: Closed',
-  address: '349, Shamli Road, near Tarachand Petrol Pump, Muzaffarnagar – 251002',
+  phoneNumbers: CLINIC.telephone.map((t) => t.replace('+91', '')),
+  email: CLINIC.email,
+  hours: CLINIC.hoursDisplay,
+  address: CLINIC.addressDisplay,
 }
 
 export function Appointment({ content }: { content?: ContactContent }) {

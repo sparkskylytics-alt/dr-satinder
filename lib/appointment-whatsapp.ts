@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '918958334505'
+import { CLINIC } from '@/lib/clinic'
 
 export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
   const data = new FormData(form)
@@ -14,5 +14,5 @@ export function sendAppointmentToWhatsApp(form: HTMLFormElement) {
     message && `Message: ${message}`,
   ].filter(Boolean).join('\n')
 
-  window.open(`https://api.whatsapp.com/send/?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(details)}&type=phone_number&app_absent=0`, '_blank', 'noopener,noreferrer')
+  window.open(`https://api.whatsapp.com/send/?phone=${CLINIC.whatsappNumber}&text=${encodeURIComponent(details)}&type=phone_number&app_absent=0`, '_blank', 'noopener,noreferrer')
 }

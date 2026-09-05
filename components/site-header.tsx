@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Menu, X, ArrowUpRight, Phone } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { cn } from '@/lib/utils'
+import { CLINIC } from '@/lib/clinic'
 
 const NAV = [
   { label: 'About', href: '#about' },
@@ -140,11 +141,11 @@ export function SiteHeader() {
         </nav>
         <div className="space-y-3 px-6 pb-6 sm:pb-10">
           <a
-            href="tel:+918958334505"
+            href={`tel:${CLINIC.telephone[0]}`}
             className="flex items-center justify-center gap-2 rounded-md border border-primary px-6 py-3.5 text-base font-medium text-primary"
           >
             <Phone className="h-5 w-5" />
-            Call 8958334505
+            Call {CLINIC.telephone[0].replace('+91', '')}
           </a>
           <a
             href="#appointment"
