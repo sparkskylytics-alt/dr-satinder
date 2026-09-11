@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "sanity:seed": "tsx sanity/seed.ts",
     "sanity:seed-videos": "tsx sanity/seed-videos.ts",
+    "sanity:seed-testimonials": "tsx sanity/seed-testimonials.ts",
     "sanity:seed-footer": "tsx sanity/seed-footer.ts",
     "images:optimize": "node scripts/optimize-images.mjs"
   },

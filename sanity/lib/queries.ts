@@ -26,8 +26,7 @@ export const HOMEPAGE_QUERY = defineQuery(`{
   },
   "services": *[_id == "servicesSection"][0]{
     eyebrow, heading, description,
-    featured[]{_key, title, description, "image": coalesce(image.asset->url, imagePath)},
-    additional
+    featured[]{_key, title, description, "image": coalesce(image.asset->url, imagePath)}
   },
   "technology": *[_id == "technologySection"][0]{
     eyebrow, heading, description,

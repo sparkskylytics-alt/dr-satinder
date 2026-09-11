@@ -37,7 +37,7 @@ export type ContactContent = {
 
 export type AboutContent = { eyebrow?: string; heading?: string; description?: string; founderName?: string; founderDescription?: string; founderImagePath?: string; values?: { _key?: string; title?: string; description?: string }[] }
 export type TeamContent = { eyebrow?: string; heading?: string; description?: string; members?: { _key?: string; name?: string; role?: string; qualifications?: string; specialties?: string[]; image?: string }[] }
-export type ServicesContent = { eyebrow?: string; heading?: string; description?: string; featured?: { _key?: string; title?: string; description?: string; image?: string }[]; additional?: string[] }
+export type ServicesContent = { eyebrow?: string; heading?: string; description?: string; featured?: { _key?: string; title?: string; description?: string; image?: string }[] }
 export type TechnologyContent = { eyebrow?: string; heading?: string; description?: string; machines?: { _key?: string; name?: string; description?: string; image?: string }[] }
 export type GalleryContent = { eyebrow?: string; heading?: string; description?: string; items?: { _key?: string; src?: string; alt?: string }[] }
 export type VideosContent = { eyebrow?: string; heading?: string; description?: string; items?: { _key?: string; title?: string; video?: string }[] }
