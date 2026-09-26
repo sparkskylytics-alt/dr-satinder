@@ -2,7 +2,7 @@
 # Every Monday 9:00 AM IST:
 #   - First Monday of the month -> FIX mode: analyse + fix code + build check + push live (or PR if build fails)
 #   - Other Mondays             -> REPORT mode: analyse only, no code changes
-# Report is sent by email with a branded PDF attached.
+# Report: short plain-text email + branded PDF (all data) attached.
 name: SEO Autopilot
 
 on:
@@ -79,17 +79,23 @@ jobs:
             1. Read seo-reports/data/latest.json (last 28 days = "current", 28 days before = "previous").
             2. To see what the monthly fix changed recently, run:
                git log --since="45 days ago" --author="seo-bot" --name-only --pretty=format:"%ad %s" --date=short
-               and read the latest committed report in seo-reports/*.md if any. Say whether pages changed
-               in earlier fixes are improving.
-            3. Write the full report in simple English to seo-reports/${{ steps.meta.outputs.date }}.md:
-               data period and totals vs previous period, keyword table (keyword | impressions | clicks |
-               position | change), what improved or dropped, alerts (big drops, pages losing position),
-               what the next monthly fix should focus on, and 3 to-dos for the owner outside the code
-               (like Google Business Profile, reviews).
-            4. Write a short email summary to seo-reports/summary.txt: plain text, max 700 characters, with
-               clicks, impressions, average position and change vs previous period, plus the 2-3 most
-               important keyword movements.
-            Only write those two files.
+               and read the latest committed seo-reports/insights-*.json if any. Note whether pages changed
+               in earlier fixes are improving (use earlier_fixes).
+            3. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
+               The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
+               numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
+               file names, code, schema, CTR, SERP), each point one short sentence (max ~20 words), only
+               facts from the data. Valid JSON with exactly these keys:
+               {"verdict": "good" | "okay" | "needs_attention",
+                "headline": "one sentence: the most important thing this period",
+                "wins": [max 3], "problems": [max 3],
+                "next_actions_agency": [max 3, what SparkSkylytics will do next],
+                "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
+                "changes_made": [ {"page": "page name in plain words", "change": "what was improved",
+                                   "reason": "the data reason, simple words"} ],
+                "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
+               In report mode, changes_made must be an empty list.
+            Only write that one file.
 
       # ---------- FIX MODE ----------
       - name: Claude - monthly analysis and code fixes
@@ -104,7 +110,7 @@ jobs:
             Monthly SEO FIX for this Next.js website. Use the nextjs-seo-fixer skill and follow both modes.
 
             1. Read seo-reports/data/latest.json (last 28 days = "current", 28 days before = "previous")
-               and the committed reports in seo-reports/*.md from the last weeks.
+               and the committed seo-reports/insights-*.json files from earlier runs.
             2. Find recently changed files:
                git log --since="28 days ago" --author="seo-bot" --name-only --pretty=format:"%ad %s" --date=short
                4-WEEK RULE: do not change the title, description, H1 or main content of any page that was
@@ -131,13 +137,20 @@ jobs:
                add new npm packages; do not touch .github/, scripts/, .env files or package.json; do not run
                git commit/push (the workflow does that). The code must still build with `next build`, so
                keep imports and "use client" boundaries correct. If nothing needs changing, change no code.
-            6. Write the full report in simple English to seo-reports/${{ steps.meta.outputs.date }}.md:
-               data period and totals vs previous period, keyword table (keyword | impressions | clicks |
-               position | change), results of earlier fixes (kept / waiting / restored), files changed and
-               the data reason for each (one line each),
-               pages skipped because of the 4-week rule, and 3 to-dos for the owner outside the code.
-            7. Write a short email summary to seo-reports/summary.txt: plain text, max 700 characters: key
-               numbers with change, 2-3 keyword movements, and one line on what was fixed.
+            6. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
+               The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
+               numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
+               file names, code, schema, CTR, SERP), each point one short sentence (max ~20 words), only
+               facts from the data. Valid JSON with exactly these keys:
+               {"verdict": "good" | "okay" | "needs_attention",
+                "headline": "one sentence: the most important thing this period",
+                "wins": [max 3], "problems": [max 3],
+                "next_actions_agency": [max 3, what SparkSkylytics will do next],
+                "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
+                "changes_made": [ {"page": "page name in plain words", "change": "what was improved",
+                                   "reason": "the data reason, simple words"} ],
+                "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
+               changes_made must list every page you changed this run (empty list if none).
 
       - name: Check for code changes
         id: changes
@@ -181,7 +194,7 @@ jobs:
           git config user.email "seo-bot@users.noreply.github.com"
           DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
           git add -A
-          git reset -q -- .github scripts .env.local .env seo-reports/summary.txt seo-reports/*.pdf node_modules .next 2>/dev/null || true
+          git reset -q -- .github scripts .env.local .env seo-reports/*.pdf node_modules .next 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "result=none" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -200,10 +213,10 @@ jobs:
           else
             git push origin "HEAD:refs/heads/${BRANCH}"
             if [ "$BUILD_OUTCOME" = "success" ]; then
-              BODY="Monthly SEO update by Claude. Report: seo-reports/${DATE}.md. Build passed."
+              BODY="Monthly SEO update by Claude. Build passed. The PDF report was emailed."
               echo "result=pr" >> "$GITHUB_OUTPUT"
             else
-              BODY="Monthly SEO update by Claude. BUILD FAILED, so it was NOT pushed live. Please check. Report: seo-reports/${DATE}.md"
+              BODY="Monthly SEO update by Claude. BUILD FAILED, so it was NOT pushed live. Please check."
               echo "result=build_failed" >> "$GITHUB_OUTPUT"
             fi
             URL=$(gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" --title "SEO update ${DATE}" --body "$BODY")
@@ -224,6 +237,11 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 fonts-noto-core > /dev/null
           pip install --quiet weasyprint markdown
+          mkdir -p ~/.local/share/fonts
+          for w in Regular Medium SemiBold Bold; do
+            curl -fsSL -o ~/.local/share/fonts/Poppins-$w.ttf "https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-$w.ttf" || true
+          done
+          fc-cache -f > /dev/null
 
       - name: Send report by email (with PDF)
         if: always()
