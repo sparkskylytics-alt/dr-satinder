@@ -44,6 +44,8 @@ jobs:
           if [ -z "$MODE" ] || [ "$MODE" = "auto" ]; then
             if [ "$((10#$DAY))" -le 7 ]; then MODE=fix; else MODE=report; fi
           fi
+          # Sites that are not Next.js: set repo variable SEO_MODE=report -> never change code
+          if [ "${{ vars.SEO_MODE }}" = "report" ]; then MODE=report; fi
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           echo "mode=$MODE" >> "$GITHUB_OUTPUT"
           echo "branch=seo/update-$DATE" >> "$GITHUB_OUTPUT"
@@ -73,24 +75,24 @@ jobs:
             --max-turns 30
             --allowedTools "Read,Write,Glob,Grep,Skill,Bash(git log:*)"
           prompt: |
-            Weekly SEO REPORT for this Next.js website. Use the nextjs-seo-fixer skill, keyword analysis mode
+            Weekly SEO REPORT for this website. Use the nextjs-seo-fixer skill, keyword analysis mode
             only (references/search-console.md). This week you must NOT change any website code.
 
             1. Read seo-reports/data/latest.json (last 28 days = "current", 28 days before = "previous").
             2. To see what the monthly fix changed recently, run:
                git log --since="45 days ago" --author="seo-bot" --name-only --pretty=format:"%ad %s" --date=short
-               and read the latest committed seo-reports/insights-*.json if any. Note whether pages changed
+               and note whether pages changed
                in earlier fixes are improving (use earlier_fixes).
             3. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
                The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
-               numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
+               numbers lists. The reader is a busy business owner (clinic, law firm, NGO, etc.): simple English, no technical words (no git,
                file names, code, schema, CTR, SERP), each point very short (max 12 words), like a bullet point, no explanations, only
                facts from the data. Valid JSON with exactly these keys:
                {"verdict": "good" | "okay" | "needs_attention",
                 "headline": "one short sentence (max 18 words): the most important thing",
                 "wins": [max 3], "problems": [max 3],
                 "next_actions_agency": [max 3, what SparkSkylytics will do next],
-                "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
+                "next_actions_owner": [max 3, what the business team can do, e.g. Google reviews],
                 "changes_made": [ {"page": "page name in plain words", "change": "what was improved (max 12 words)",
                                    "keywords": ["the exact search terms this change targets, from the data"]} ],
                 "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
@@ -104,18 +106,23 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: |
-            --max-turns 70
+            --max-turns 120
             --allowedTools "Read,Write,Edit,Glob,Grep,Skill,Bash(git log:*),Bash(git show:*),Bash(git diff:*),Bash(ls:*)"
           prompt: |
-            Monthly SEO FIX for this Next.js website. Use the nextjs-seo-fixer skill and follow both modes.
+            Monthly SEO FIX for this website. Use the nextjs-seo-fixer skill and follow both modes. First check package.json:
+            Next.js -> Next.js patterns; Vite/React SPA -> references/vite-react-spa.md.
 
             1. Read seo-reports/data/latest.json (last 28 days = "current", 28 days before = "previous")
-               and the committed seo-reports/insights-*.json files from earlier runs.
+               (earlier reports are not stored in the repo; use git history instead).
             2. Find recently changed files:
                git log --since="28 days ago" --author="seo-bot" --name-only --pretty=format:"%ad %s" --date=short
                4-WEEK RULE: do not change the title, description, H1 or main content of any page that was
                changed in that period. Google needs time to react. Technical fixes (broken schema, missing
                alt text, sitemap errors) are still allowed.
+            0. FIRST, before touching any code, write seo-reports/insights-${{ steps.meta.outputs.date }}.json
+               (format in step 6) with verdict, headline, wins, problems and both action lists, and
+               changes_made as an empty list. At the end, update changes_made in that same file.
+               This file is required even if you run out of time.
             3. Check earlier fixes first. For every page seo-bot changed 4 or more weeks ago, compare its
                numbers before vs after (impressions, clicks, position of its keywords):
                - improved -> KEEP it, do not touch that page;
@@ -135,18 +142,18 @@ jobs:
             5. Safety rules: keep the design; make focused changes (max about 8 files); do not invent phone
                numbers, addresses, reviews, ratings, prices or medical claims; do not delete pages; do not
                add new npm packages; do not touch .github/, scripts/, .env files or package.json; do not run
-               git commit/push (the workflow does that). The code must still build with `next build`, so
-               keep imports and "use client" boundaries correct. If nothing needs changing, change no code.
+               git commit/push (the workflow does that). The code must still build with `npm run build`, so
+               keep imports (and "use client" boundaries in Next.js) correct. If nothing needs changing, change no code.
             6. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
                The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
-               numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
+               numbers lists. The reader is a busy business owner (clinic, law firm, NGO, etc.): simple English, no technical words (no git,
                file names, code, schema, CTR, SERP), each point very short (max 12 words), like a bullet point, no explanations, only
                facts from the data. Valid JSON with exactly these keys:
                {"verdict": "good" | "okay" | "needs_attention",
                 "headline": "one short sentence (max 18 words): the most important thing",
                 "wins": [max 3], "problems": [max 3],
                 "next_actions_agency": [max 3, what SparkSkylytics will do next],
-                "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
+                "next_actions_owner": [max 3, what the business team can do, e.g. Google reviews],
                 "changes_made": [ {"page": "page name in plain words", "change": "what was improved (max 12 words)",
                                    "keywords": ["the exact search terms this change targets, from the data"]} ],
                 "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
@@ -194,16 +201,13 @@ jobs:
           git config user.email "seo-bot@users.noreply.github.com"
           DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
           git add -A
-          git reset -q -- .github scripts .env.local .env seo-reports/*.pdf node_modules .next 2>/dev/null || true
+          git reset -q -- .github scripts .env.local .env seo-reports node_modules .next 2>/dev/null || true   # client data never committed (public repos)
           if git diff --cached --quiet; then
             echo "result=none" >> "$GITHUB_OUTPUT"; exit 0
           fi
           git commit -q -m "SEO monthly update ${DATE}"
+          echo "files=$(git diff --name-only HEAD~1 HEAD | tr '\n' ',')" >> "$GITHUB_OUTPUT"
 
-          if [ "$CODE_CHANGES" = "0" ]; then
-            git push origin "HEAD:${DEFAULT_BRANCH}"   # report only, safe
-            echo "result=report_only" >> "$GITHUB_OUTPUT"; exit 0
-          fi
 
           if [ "$PUSH_MODE" != "pr" ] && [ "$BUILD_OUTCOME" = "success" ]; then
             git push origin "HEAD:${DEFAULT_BRANCH}"
@@ -222,14 +226,6 @@ jobs:
             URL=$(gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" --title "SEO update ${DATE}" --body "$BODY")
             echo "url=$URL" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Save report as download
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: seo-report-${{ steps.meta.outputs.date }}
-          path: seo-reports/
-          if-no-files-found: ignore
 
       - name: Install PDF tools
         if: always()
@@ -259,6 +255,7 @@ jobs:
           REPORT_DATE: ${{ steps.meta.outputs.date }}
           PUSH_RESULT: ${{ steps.push.outputs.result }}
           LINK_URL: ${{ steps.push.outputs.url }}
+          CHANGED_FILES: ${{ steps.push.outputs.files }}
           JOB_STATUS: ${{ job.status }}
           RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: PYTHONPATH=scripts/seo python scripts/seo/notify.py
