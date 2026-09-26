@@ -183,7 +183,7 @@ def build(data, insights, out: Path):
         card("Shown on Google", f"{t['impressions']:,}", change_num(t["impressions"], pt.get("impressions")), "times"),
         card("Avg. position", f"{t['position']:.1f}" if t.get("position") else "–",
              change_num(t["position"], pt.get("position"), lower_better=True) if t.get("position") else "", "1 = top of Google"),
-        card("Search terms", f"{len(queries)}", "", "different searches"),
+        card("Search terms", f"{len(queries)}" if queries else "–", "", "different searches" if queries else "not shared by Google yet"),
     ])
 
     # pie 1: where the site appears
@@ -210,6 +210,13 @@ def build(data, insights, out: Path):
         f'<div class="hbv">{r["impressions"]} <span class="muted">· {r["clicks"]} visits</span></div></div>' for r in pages)
 
     changes = [x for x in (ins.get("changes_made") or []) if x and x.get("page")]
+    if not changes and E("CHANGED_FILES"):
+        # fallback: Claude did not describe its changes, list the updated files in plain words
+        for f in [f for f in E("CHANGED_FILES").split(",") if f.strip()]:
+            name = Path(f).stem.replace("-", " ").replace("_", " ")
+            label = {"index": "Main page settings (index.html)", "robots": "robots.txt (tells Google what to read)",
+                     "sitemap": "Sitemap (list of pages for Google)", "vercel": "Page links setup (vercel.json)"}.get(Path(f).stem.lower(), name[:1].upper() + name[1:])
+            changes.append({"page": label, "change": f"Updated file: {f}", "keywords": []})
     change_block = ""
     if changes:
         rows = "".join(
@@ -232,7 +239,8 @@ def build(data, insights, out: Path):
     p1 = [r for r in queries if r["position"] <= 10]
     p2 = sorted([r for r in queries if 10 < r["position"] <= 20], key=lambda r: -r["impressions"])
     top3_names = ", ".join(f"'{esc(r['query'])}'" for r in sorted(top3, key=lambda r: -r["impressions"])[:2])
-    ex_where = explain([
+    no_q = len(queries) == 0
+    ex_where = explain(["Google has not shared search terms yet – the site gets too few searches. This fills in as visibility grows."]) if no_q else explain([
         f"You show on <b>page 1</b> for <b>{len(p1)} of {len(queries)}</b> searches ({len(p1) / nq * 100:.0f}%).",
         f"<b>Top 3</b> for {top3_names}." if top3_names else "",
         f"<b>{len(p2)}</b> searches are on page 2 – close to page 1." if p2 else "",
@@ -349,19 +357,19 @@ tr:nth-child(even) td {{ background: #f8fafb; }} .n {{ text-align: right; }}
 </div>
 <div class="row">
  <div class="box"><h3>💡 Our suggestions (we will do)</h3>{li(ins.get('next_actions_agency'))}</div>
- <div class="box"><h3>💡 Suggestions for the clinic</h3>{li(ins.get('next_actions_owner'))}</div>
+ <div class="box"><h3>💡 Suggestions for {esc(c["site"])}</h3>{li(ins.get('next_actions_owner'))}</div>
 </div>
 
 <h2>Charts</h2>
 <div class="row">
- <div class="chart"><h3>Where you appear on Google</h3>{pie(buckets)}{ex_where}</div>
+ <div class="chart"><h3>Where you appear on Google</h3>{"" if no_q else pie(buckets)}{ex_where}</div>
  <div class="chart"><h3>Phone vs computer</h3>{pie(devices)}{ex_dev}</div>
 </div>
 <div class="chart pb" style="margin-top:10pt"><h3>Shown on Google, day by day</h3>{daily_chart(cur.get('daily'), color)}{ex_daily}</div>
 <div class="chart" style="margin-top:10pt"><h3>Most visible pages</h3>{page_bars}{ex_pages}</div>
 
 <h2>Top 10 searches</h2>
-<table><tr><th>Search</th><th class='n'>Shown</th><th class='n'>Position</th><th>Where</th><th>Change</th></tr>{q_rows}</table>{ex_top}
+{"<p class='muted'>No search terms from Google yet.</p>" if no_q else "<table><tr><th>Search</th><th class='n'>Shown</th><th class='n'>Position</th><th>Where</th><th>Change</th></tr>" + q_rows + "</table>" + ex_top}
 {change_block}
 </body></html>"""
     out.parent.mkdir(parents=True, exist_ok=True)
