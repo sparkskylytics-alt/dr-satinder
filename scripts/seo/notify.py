@@ -36,25 +36,21 @@ def numbered(items):
 
 def email_text(data, ins):
     t = data["current"]["totals"]
+    kind = "monthly" if MODE == "fix" else "weekly"
+    period = f"{data['current']['start']} to {data['current']['end']}"
     lines = [
-        f"SEO {'monthly' if MODE == 'fix' else 'weekly'} report – {SITE}",
-        f"Google data: {data['current']['start']} to {data['current']['end']}",
+        "Hello,",
         "",
-        ins.get("headline", ""),
+        f"Please find attached the {kind} SEO report for {SITE} ({period}).",
         "",
-        f"Clicks: {t['clicks']}   |   Shown on Google: {t['impressions']}   |   "
-        f"Click rate: {t['ctr'] * 100:.1f}%   |   Avg position: {t['position']:.1f}" if t.get("position") else
-        f"Clicks: {t['clicks']}   |   Shown on Google: {t['impressions']}",
-        "",
-        status_line(),
+        f"Visits from Google: {t['clicks']}",
+        f"Shown on Google: {t['impressions']} times",
     ]
-    if ins.get("next_actions_agency"):
-        lines += ["", "What we will do next:", numbered(ins["next_actions_agency"])]
-    if ins.get("next_actions_owner"):
-        lines += ["", "How the clinic team can help:", numbered(ins["next_actions_owner"])]
+    if MODE == "fix":
+        lines += ["", status_line()]
     if LINK:
-        lines += ["", f"Changes on GitHub: {LINK}"]
-    lines += ["", "The full report with all numbers is attached as a PDF."]
+        lines += [f"Changes: {LINK}"]
+    lines += ["", "Regards,", E("AGENCY_NAME") or "SparkSkylytics"]
     return "\n".join(lines)
 
 
