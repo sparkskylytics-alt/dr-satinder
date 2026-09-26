@@ -84,15 +84,15 @@ jobs:
             3. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
                The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
                numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
-               file names, code, schema, CTR, SERP), each point one short sentence (max ~20 words), only
+               file names, code, schema, CTR, SERP), each point very short (max 12 words), like a bullet point, no explanations, only
                facts from the data. Valid JSON with exactly these keys:
                {"verdict": "good" | "okay" | "needs_attention",
-                "headline": "one sentence: the most important thing this period",
+                "headline": "one short sentence (max 18 words): the most important thing",
                 "wins": [max 3], "problems": [max 3],
                 "next_actions_agency": [max 3, what SparkSkylytics will do next],
                 "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
-                "changes_made": [ {"page": "page name in plain words", "change": "what was improved",
-                                   "reason": "the data reason, simple words"} ],
+                "changes_made": [ {"page": "page name in plain words", "change": "what was improved (max 12 words)",
+                                   "keywords": ["the exact search terms this change targets, from the data"]} ],
                 "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
                In report mode, changes_made must be an empty list.
             Only write that one file.
@@ -140,15 +140,15 @@ jobs:
             6. Write ONLY a short insights file to seo-reports/insights-${{ steps.meta.outputs.date }}.json.
                The PDF tables and numbers are built automatically from the data, so do NOT repeat tables or
                numbers lists. The reader is a busy clinic owner: simple English, no technical words (no git,
-               file names, code, schema, CTR, SERP), each point one short sentence (max ~20 words), only
+               file names, code, schema, CTR, SERP), each point very short (max 12 words), like a bullet point, no explanations, only
                facts from the data. Valid JSON with exactly these keys:
                {"verdict": "good" | "okay" | "needs_attention",
-                "headline": "one sentence: the most important thing this period",
+                "headline": "one short sentence (max 18 words): the most important thing",
                 "wins": [max 3], "problems": [max 3],
                 "next_actions_agency": [max 3, what SparkSkylytics will do next],
                 "next_actions_owner": [max 3, what the clinic team can do, e.g. Google reviews],
-                "changes_made": [ {"page": "page name in plain words", "change": "what was improved",
-                                   "reason": "the data reason, simple words"} ],
+                "changes_made": [ {"page": "page name in plain words", "change": "what was improved (max 12 words)",
+                                   "keywords": ["the exact search terms this change targets, from the data"]} ],
                 "earlier_fixes": [ {"page": "...", "result": "kept" | "waiting" | "restored", "note": "short"} ]}
                changes_made must list every page you changed this run (empty list if none).
 
