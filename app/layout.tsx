@@ -4,9 +4,9 @@ import './globals.css'
 import { CLINIC } from '@/lib/clinic'
 import { AppointmentModal } from '@/components/appointment-modal'
 
-const TITLE = 'Eye Specialist in Muzaffarnagar | Dr. Satinder Eye Care Centre'
+const TITLE = 'Eye Doctor & Eye Hospital in Muzaffarnagar | Dr. Satinder'
 const DESCRIPTION =
-  'Eye specialist in Muzaffarnagar for cataract, LASIK & glaucoma care, 50+ years of trusted experience. Call 8958334505.'
+  'Dr. Satinder Eye Care Centre – trusted eye specialist in Muzaffarnagar for 50+ years. Cataract, LASIK, glaucoma & kids eye care. Open daily. Call 8958334505.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(CLINIC.url),
@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     'Dr Satinder Eye Care Centre',
     'best eye doctor Muzaffarnagar',
   ],
-  generator: 'v0.app',
   alternates: {
     canonical: '/',
   },

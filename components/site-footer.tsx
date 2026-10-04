@@ -72,6 +72,7 @@ export function SiteFooter({ content }: { content?: FooterContent }) {
 
         <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-ivory/10 pt-6 text-xs text-ivory/40 sm:flex-row sm:items-center">
           <p>{footer.copyright}</p>
+          <p>Designed &amp; developed by <a href="https://sparkskylytics.com/" target="_blank" rel="noopener" className="text-ivory/60 underline-offset-4 transition-colors hover:text-ivory/90 hover:underline">Spark Skylytics</a></p>
           <div className="flex gap-6"><button type="button" onClick={() => setLegalModal('privacy')} className="transition-colors hover:text-ivory/80">Privacy</button><button type="button" onClick={() => setLegalModal('terms')} className="transition-colors hover:text-ivory/80">Terms</button></div>
         </div>
       </div>

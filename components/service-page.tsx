@@ -4,7 +4,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { JsonLd } from '@/components/json-ld'
 import { CLINIC } from '@/lib/clinic'
-import { getSiblingServices, type Service } from '@/lib/services'
+import { getAnsweredFaqs, getSiblingServices, type Service } from '@/lib/services'
 import { medicalProcedureSchema, faqPageSchema, breadcrumbSchema } from '@/lib/structured-data'
 import { getHomepage } from '@/sanity/lib/homepage'
 
@@ -12,13 +12,14 @@ export async function ServicePage({ service }: { service: Service }) {
   const content = await getHomepage()
   const siblings = getSiblingServices(service.slug)
   const pageUrl = `${CLINIC.url}/${service.slug}`
+  const faqs = getAnsweredFaqs(service)
 
   return (
     <>
       <JsonLd
         data={[
           medicalProcedureSchema({ name: service.name, description: service.metaDescription, url: pageUrl }),
-          faqPageSchema(service.faqs),
+          ...(faqs.length ? [faqPageSchema(faqs)] : []),
           breadcrumbSchema([
             { name: 'Home', url: CLINIC.url },
             { name: service.name, url: pageUrl },
@@ -52,24 +53,26 @@ export async function ServicePage({ service }: { service: Service }) {
           Call {CLINIC.telephone[0].replace('+91', '')} to book
         </a>
 
-        <section className="mt-10">
-          <h2 className="font-serif text-2xl font-light text-foreground">About {service.name.toLowerCase()} at {CLINIC.shortName}</h2>
-          <div className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            {/* TODO: clinical copy — needs doctor review */}
-          </div>
-        </section>
+        {service.about && (
+          <section className="mt-10">
+            <h2 className="font-serif text-2xl font-light text-foreground">About {service.name.toLowerCase()} at {CLINIC.shortName}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.about}</p>
+          </section>
+        )}
 
-        <section className="mt-10">
-          <h2 className="font-serif text-2xl font-light text-foreground">Frequently asked questions</h2>
-          <div className="mt-4 space-y-5">
-            {service.faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="text-base font-medium text-foreground">{faq.question}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {faqs.length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-serif text-2xl font-light text-foreground">Frequently asked questions</h2>
+            <div className="mt-4 space-y-5">
+              {faqs.map((faq) => (
+                <div key={faq.question}>
+                  <h3 className="text-base font-medium text-foreground">{faq.question}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="mt-10 border-t border-border pt-6">
           <h2 className="label-caps text-primary">Related treatments</h2>

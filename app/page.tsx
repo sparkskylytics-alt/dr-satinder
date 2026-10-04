@@ -10,10 +10,11 @@ import { Gallery } from '@/components/gallery'
 import { MediaGallery } from '@/components/media-gallery'
 import { Testimonials } from '@/components/testimonials'
 import { Appointment } from '@/components/appointment'
+import { HomeFaq, HOME_FAQS } from '@/components/home-faq'
 import { SiteFooter } from '@/components/site-footer'
 import { getHomepage } from '@/sanity/lib/homepage'
 import { JsonLd } from '@/components/json-ld'
-import { medicalClinicSchema, physicianSchema, breadcrumbSchema } from '@/lib/structured-data'
+import { medicalClinicSchema, websiteSchema, physicianSchema, faqPageSchema, breadcrumbSchema } from '@/lib/structured-data'
 import { CLINIC } from '@/lib/clinic'
 import { DOCTORS } from '@/lib/doctors'
 
@@ -35,7 +36,9 @@ export default async function Page() {
       <JsonLd
         data={[
           medicalClinicSchema(),
+          websiteSchema(),
           ...doctors.map((doctor) => physicianSchema(doctor)),
+          faqPageSchema(HOME_FAQS),
           breadcrumbSchema([{ name: 'Home', url: CLINIC.url }]),
         ]}
       />
@@ -51,6 +54,7 @@ export default async function Page() {
         <Gallery content={content?.gallery} />
         <MediaGallery content={content?.media} />
         <Testimonials content={content?.testimonials} />
+        <HomeFaq />
         <Appointment content={content?.contact} />
       </main>
       <SiteFooter content={content?.footer} />

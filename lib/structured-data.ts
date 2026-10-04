@@ -14,7 +14,13 @@ export function medicalClinicSchema() {
     '@type': 'MedicalClinic',
     '@id': `${CLINIC.url}/#clinic`,
     name: CLINIC.legalName,
+    alternateName: [CLINIC.shortName, CLINIC.hindiName],
     url: CLINIC.url,
+    logo: `${CLINIC.url}${CLINIC.logo}`,
+    image: `${CLINIC.url}${CLINIC.logo}`,
+    hasMap: CLINIC.mapsUrl,
+    sameAs: [CLINIC.mapsUrl],
+    founder: { '@type': 'Person', name: 'Dr. Satinder' },
     telephone: CLINIC.telephone,
     email: CLINIC.email,
     priceRange: CLINIC.priceRange,
@@ -39,6 +45,19 @@ export function medicalClinicSchema() {
     })),
     areaServed: CLINIC.areaServed.map((place) => ({ '@type': 'City', name: place })),
     medicalSpecialty: 'Ophthalmologic',
+  }
+}
+
+export function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${CLINIC.url}/#website`,
+    name: CLINIC.legalName,
+    alternateName: [CLINIC.shortName, CLINIC.hindiName],
+    url: CLINIC.url,
+    inLanguage: 'en-IN',
+    publisher: { '@id': `${CLINIC.url}/#clinic` },
   }
 }
 

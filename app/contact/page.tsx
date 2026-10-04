@@ -9,8 +9,8 @@ import { breadcrumbSchema } from '@/lib/structured-data'
 import { getHomepage } from '@/sanity/lib/homepage'
 
 export const metadata: Metadata = {
-  title: 'Contact Us in Muzaffarnagar | Dr. Satinder Eye Care Centre',
-  description: 'Contact Dr. Satinder Eye Care Centre in Muzaffarnagar. Address, phone numbers, hours and map. Call 8958334505 to book a consultation.',
+  title: 'Contact & Address, Muzaffarnagar | Dr. Satinder Eye Care',
+  description: 'Dr. Satinder Eye Care Centre, Gaushala Road, Muzaffarnagar. Get directions, timings and phone numbers. Open Mon–Sun. Call 8958334505 to book.',
   alternates: { canonical: '/contact' },
 }
 

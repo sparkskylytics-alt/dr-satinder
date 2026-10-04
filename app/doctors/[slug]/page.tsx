@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const doctor = getDoctorBySlug(slug)
   if (!doctor) return {}
   return {
-    title: `${doctor.name} — ${doctor.role} in Muzaffarnagar | Dr. Satinder Eye Care Centre`,
+    title: `${doctor.name} – Eye Doctor in Muzaffarnagar | Dr. Satinder Eye Care`,
     description: `${doctor.name}, ${doctor.role} at Dr. Satinder Eye Care Centre, Muzaffarnagar. ${doctor.qualifications}. Call 8958334505 to book.`,
     alternates: { canonical: `/doctors/${doctor.slug}` },
   }

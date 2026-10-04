@@ -7,6 +7,8 @@ export type OpeningHours = {
 export const CLINIC = {
   legalName: 'Dr. Satinder Eye Care Centre',
   shortName: 'Dr Satinder Eye Care',
+  // Hindi spelling — patients search "सतिंदर" (see Search Console), so it appears on the page and in schema.
+  hindiName: 'डॉ. सतिंदर आई केयर सेंटर',
   url: 'https://www.satindereyecarecentre.com',
   telephone: ['+918958334505', '+918630506562'] as [string, string],
   telephoneDisplay: '8958334505 · 8630506562',
@@ -35,5 +37,8 @@ export const CLINIC = {
   areaServed: ['Muzaffarnagar', 'Shamli', 'Budhana', 'Khatauli', 'Charthawal'],
   priceRange: '₹₹',
   whatsappNumber: '918958334505',
+  // Google Maps listing (CID taken from the embedded map's place id 0x6f18e3e888c40138).
+  mapsUrl: 'https://maps.google.com/?cid=8005398925517521208',
+  logo: '/images/dr-satinder-eye-care-logo.jpeg',
   mapsQuery: 'Dr. SATINDER EYE CARE CENTRE, Police Chawki, 349, Gaushala Road, Main Rd, near Eidgah Road, Shamli, Muzaffarnagar, Uttar Pradesh 251002',
 } as const
